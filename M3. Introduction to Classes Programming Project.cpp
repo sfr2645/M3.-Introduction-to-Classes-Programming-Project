@@ -3,6 +3,7 @@
 // stores a date in three integers: month, day, and year.
 #include "Date.h"
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ Date::Date(int m, int d, int y)
 // Mutator with validation
 void Date::setDate(int m, int d, int y)
 {
-    if (!isValidDate(m, d, y))
+    if (!Date::isValidDate(m, d, y))
     {
         month = 1;
         day = 1;
