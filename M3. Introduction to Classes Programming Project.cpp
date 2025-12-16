@@ -1,5 +1,6 @@
 // M3. Introduction to Classes Programming Project.cpp
-//This is the class called date for the Date Class program
+//This is the class called date for the Date Class program 
+// that stores a date in three integers: month, day, and year.
 #ifndef DATE_H
 #define DATE_H
 
