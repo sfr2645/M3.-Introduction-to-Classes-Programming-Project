@@ -1,6 +1,6 @@
 // M3. Introduction to Classes Programming Project.cpp : This file contains the 'main' function. Program execution begins and ends there.
-// This is a header file for the date class program. This is the class called date that
-// stores a date in three integers: month, day, and year.
+// This program will print the date in three seperate forms.
+
 #include "Date.h"
 #include <iostream>
 #include <chrono>
