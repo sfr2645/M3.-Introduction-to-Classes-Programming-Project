@@ -1,5 +1,5 @@
-// M3. Introduction to Classes Programming Project.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// M3. Introduction to Classes Programming Project.cpp
+//This is the class called date for the Date Class program
 #ifndef DATE_H
 #define DATE_H
 
