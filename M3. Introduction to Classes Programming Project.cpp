@@ -1,45 +1,40 @@
 // M3. Introduction to Classes Programming Project.cpp
-//This is the class called date for the Date Class program 
-// that stores a date in three integers: month, day, and year.
-#ifndef DATE_H
-#define DATE_H
+//This is the class called date for the Number Array Class program 
 
-#include <string>
+#ifndef NUMBERARRAY_H
+#define NUMBERARRAY_H
 
-class Date
+class NumberArray
 {
 private:
-    int month;
-    int day;
-    int year;
-
-    // Helper validation function
-    bool isValidDate(int m, int d, int y) const;
+    int size;          // size of the array
+    double* numbers;   // pointer to dynamic array
 
 public:
-    // Constructor with default values
-    Date(int m = 1, int d = 1, int y = 1900);
+    // Named constants
+    static const int MAX_SIZE = 10;
+    static const double DEFAULT_VALUE;
+
+    // Constructor & Destructor
+    NumberArray(int size = MAX_SIZE);
+    ~NumberArray();
 
     // Mutator
-    void setDate(int m, int d, int y);
+    void setNumber(int index, double value);
 
-    // Accessors (inline)
-    int getMonth() const { return month; }
-    int getDay() const { return day; }
-    int getYear() const { return year; }
+    // Accessor
+    double getNumber(int index) const;
 
-    // Leap year functions
-    bool isLeapYear() const;
-    bool isLeapYear(int y) const;
+    // Operations
+    double getMin() const;
+    double getMax() const;
+    double getAverage() const;
 
-    // Last day of month functions
-    int lastDay() const;
-    int lastDay(int m, int y) const;
+    // Print function (for testing)
+    void print() const;
 
-    // Print functions
-    std::string printNumeric() const;        // 12/25/2021
-    std::string printMonthFirst() const;     // December 25, 2021
-    std::string printDayFirst() const;       // 25 December 2021
+    // Accessor for size (inline)
+    int getSize() const { return size; }
 };
 
 #endif
