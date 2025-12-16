@@ -75,7 +75,6 @@ public:
 		cin >> year;
 	}
 
-
 	//overload prefix ++ operator
 	date operator++() {
 		++day;
