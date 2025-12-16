@@ -1,98 +1,180 @@
 // M3. Introduction to Classes Programming Project.cpp : This file contains the 'main' function. Program execution begins and ends there.
 // This program will print the date in three seperate forms.
 
-#include "NumberArray.h"
 #include <iostream>
-
 using namespace std;
+#include <cstdlib>  
 
-// Initialize static constant
-const double NumberArray::DEFAULT_VALUE = 10000.0;
-
-// Constructor
-NumberArray::NumberArray(int s)
+class date
 {
-    if (s <= 0)
-        size = MAX_SIZE;
-    else
-        size = s;
+private:
+	int month, day, year;
+	string monthNames[13] = { "", "January", "February", "March",
+								"April", "May", "June",
+								"July", "August", "September",
+								"October", "November", "December" };
 
-    numbers = new double[size];
+	int monthDays[13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-    // Initialize array to 0
-    for (int i = 0; i < size; i++)
-        numbers[i] = 0.0;
-}
+	//constructor - no argument
 
-// Destructor
-NumberArray::~NumberArray()
-{
-    delete[] numbers;
-    cout << "The destructor is running" << endl;
-}
+public:
+	date() : month(0), day(0), year(0)
+	{
+	}
+	//constructor - 3 arguments
+	date(int m, int d, int y) : month(m), day(d), year(y)
+	{
+	}
 
-// Store a number
-void NumberArray::setNumber(int index, double value)
-{
-    if (index < 0 || index >= size)
-    {
-        cout << "The index is out of the bounds of the array, number not stored" << endl;
-        return;
-    }
+	//format date 1
+	void displayForm1()
+	{
+		cout << month << "/" << day << "/" << year << endl;
+	}
 
-    numbers[index] = value;
-}
+	//format date 2
+	void displayFormTwo()
+	{
 
-// Retrieve a number
-double NumberArray::getNumber(int index) const
-{
-    if (index < 0 || index >= size)
-    {
-        cout << "The Index is out of the bounds of the array, returning default" << endl;
-        return DEFAULT_VALUE;
-    }
+		cout << monthNames[month] << " " << day << ", " << year << endl;
+	}
 
-    return numbers[index];
-}
+	date displayForm2()
+	{
 
-// Minimum value
-double NumberArray::getMin() const
-{
-    double min = numbers[0];
-    for (int i = 1; i < size; i++)
-    {
-        if (numbers[i] < min)
-            min = numbers[i];
-    }
-    return min;
-}
+		cout << monthNames[month] << " " << day << ", " << year << endl;
 
-// Maximum value
-double NumberArray::getMax() const
-{
-    double max = numbers[0];
-    for (int i = 1; i < size; i++)
-    {
-        if (numbers[i] > max)
-            max = numbers[i];
-    }
-    return max;
-}
+		return date();
+	}
 
-// Average value
-double NumberArray::getAverage() const
-{
-    double sum = 0.0;
-    for (int i = 0; i < size; i++)
-        sum += numbers[i];
+	//format date 3
+	void displayForm3()
+	{
+		cout << day << " " << monthNames[month] << " " << year << endl;
+	}
 
-    return sum / size;
-}
+	void getDate()
+	{
+		cout << "Enter date : " << endl;
+		cout << "day: " << endl;
+		cin >> day;
+		while (day < 1 || day > 31)
+		{
+			cout << "enter valid day: " << endl;
+			cin >> day;
+		}
+		cout << "month: " << endl;
+		cin >> month;
+		while (month < 1 || month > 12)
+		{
+			cout << "enter valid month: " << endl;
+			cin >> month;
+		}
+		cout << "year: " << endl;
+		cin >> year;
+	}
 
-// Print array
-void NumberArray::print() const
-{
-    for (int i = 0; i < size; i++)
-        cout << numbers[i] << " ";
-    cout << endl;
-}
+
+	//overload prefix ++ operator
+	date operator++() {
+		++day;
+
+		if (day > monthDays[month])
+		{
+			day = day - monthDays[month];
+			month++;
+		}
+
+		//return modified calling object
+		return *this;
+	}
+
+	//overload postfix ++ operator
+	date operator++(int) {
+		day++;
+
+		if (day > monthDays[month])
+		{
+			day = day - monthDays[month];
+			month++;
+		}
+
+		//return modified calling object
+		return *this;
+	}
+
+	//overload prefix -- operator
+	date operator--() {
+		--day;
+
+		if (day < 1)
+		{
+			day = monthDays[month];
+			month--;
+		}
+
+		//return modified calling object
+		return *this;
+	}
+
+	//overload postfix -- operator
+	date operator--(int) {
+		day--;
+
+		if (day < 1)
+		{
+			day = monthDays[month];
+			month--;
+		}
+
+		//return modified calling object
+		return *this;
+	}
+
+	date operator << (date d) {
+		return d.displayForm2();
+	}
+
+	date operator >> (date d)
+	{
+		cout << "Day: ";
+		cin >> day;
+		d.day = day;
+		if (day < 1 || day > 31)
+		{
+			throw "Enter a valid day";
+			cin >> day;
+			d.day = day;
+		}
+
+		cout << "Month: ";
+		cin >> month;
+		d.month = month;
+		if (month < 1 || month > 12)
+		{
+			cout << "enter valid month: " << endl;
+			cin >> month;
+			d.month = month;
+		}
+
+		cout << "Year: ";
+		cin >> year;
+		d.year = year;
+
+		return d.displayForm2();
+	}
+
+	date operator - (const date& right)
+	{
+		date temp;
+
+		temp.day = day - right.day;
+		temp.month = month - right.month;
+
+		cout << "The difference between current date and date 2 is ... " << temp.day << " days" << endl;
+		return temp;
+	}
+
+
+};
