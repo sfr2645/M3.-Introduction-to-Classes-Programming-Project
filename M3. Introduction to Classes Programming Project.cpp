@@ -1,20 +1,44 @@
 // M3. Introduction to Classes Programming Project.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#ifndef DATE_H
+#define DATE_H
 
-#include <iostream>
+#include <string>
 
-int main()
+class Date
 {
-    std::cout << "Hello World!\n";
-}
+private:
+    int month;
+    int day;
+    int year;
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+    // Helper validation function
+    bool isValidDate(int m, int d, int y) const;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+public:
+    // Constructor with default values
+    Date(int m = 1, int d = 1, int y = 1900);
+
+    // Mutator
+    void setDate(int m, int d, int y);
+
+    // Accessors (inline)
+    int getMonth() const { return month; }
+    int getDay() const { return day; }
+    int getYear() const { return year; }
+
+    // Leap year functions
+    bool isLeapYear() const;
+    bool isLeapYear(int y) const;
+
+    // Last day of month functions
+    int lastDay() const;
+    int lastDay(int m, int y) const;
+
+    // Print functions
+    std::string printNumeric() const;        // 12/25/2021
+    std::string printMonthFirst() const;     // December 25, 2021
+    std::string printDayFirst() const;       // 25 December 2021
+};
+
+#endif
