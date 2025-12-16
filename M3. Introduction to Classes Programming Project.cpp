@@ -1,98 +1,114 @@
-// M3. Introduction to Classes Programming Project.cpp
-//This is the class called date for the Number Array Class program 
-
-#include "NumberArray.h"
+// M3. Introduction to Classes Programming Project.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// This program will print the date in three seperate forms.
+#include "Date.h"
 #include <iostream>
 
 using namespace std;
 
-// Initialize static constant
-const double NumberArray::DEFAULT_VALUE = 10000.0;
-
 // Constructor
-NumberArray::NumberArray(int s)
+Date::Date(int m, int d, int y)
 {
-    if (s <= 0)
-        size = MAX_SIZE;
-    else
-        size = s;
-
-    numbers = new double[size];
-
-    // Initialize array to 0
-    for (int i = 0; i < size; i++)
-        numbers[i] = 0.0;
+    setDate(m, d, y);
 }
 
-// Destructor
-NumberArray::~NumberArray()
+// Mutator with validation
+void Date::setDate(int m, int d, int y)
 {
-    delete[] numbers;
-    cout << "The destructor is running" << endl;
-}
-
-// Store a number
-void NumberArray::setNumber(int index, double value)
-{
-    if (index < 0 || index >= size)
+    if (!isValidDate(m, d, y))
     {
-        cout << "The index is out of the bounds of the array, number not stored" << endl;
+        month = 1;
+        day = 1;
+        year = 1900;
         return;
     }
 
-    numbers[index] = value;
+    month = m;
+    day = d;
+    year = y;
 }
 
-// Retrieve a number
-double NumberArray::getNumber(int index) const
+// Validation helper
+bool Date::isValidDate(int m, int d, int y) const
 {
-    if (index < 0 || index >= size)
+    if (m < 1 || m > 12)
     {
-        cout << "The Index is out of the bounds of the array, returning default" << endl;
-        return DEFAULT_VALUE;
+        cout << "Month invalid" << endl;
+        return false;
     }
 
-    return numbers[index];
-}
+    if (y <= 0)
+        return false;
 
-// Minimum value
-double NumberArray::getMin() const
-{
-    double min = numbers[0];
-    for (int i = 1; i < size; i++)
+    int maxDay = lastDay(m, y);
+
+    if (d < 1 || d > maxDay)
     {
-        if (numbers[i] < min)
-            min = numbers[i];
+        cout << "Day invalid" << endl;
+        return false;
     }
-    return min;
+
+    return true;
 }
 
-// Maximum value
-double NumberArray::getMax() const
+// Leap year (object years)
+bool Date::isLeapYear() const
 {
-    double max = numbers[0];
-    for (int i = 1; i < size; i++)
+    return isLeapYear(year);
+}
+
+// Leap year (parameter, year)
+bool Date::isLeapYear(int y) const
+{
+    if ((y % 400 == 0) || (y % 4 == 0 && y % 100 != 0))
+        return true;
+    return false;
+}
+
+// Last day (object month/year)
+int Date::lastDay() const
+{
+    return lastDay(month, year);
+}
+
+// Last day (parameter month/year)
+int Date::lastDay(int m, int y) const
+{
+    switch (m)
     {
-        if (numbers[i] > max)
-            max = numbers[i];
+    case 1: case 3: case 5: case 7:
+    case 8: case 10: case 12:
+        return 31;
+    case 4: case 6: case 9: case 11:
+        return 30;
+    case 2:
+        return isLeapYear(y) ? 29 : 28;
+    default:
+        return 0;
     }
-    return max;
 }
 
-// Average value
-double NumberArray::getAverage() const
+// Print formats
+string Date::printNumeric() const
 {
-    double sum = 0.0;
-    for (int i = 0; i < size; i++)
-        sum += numbers[i];
-
-    return sum / size;
+    return to_string(month) + "/" + to_string(day) + "/" + to_string(year);
 }
 
-// Print array
-void NumberArray::print() const
+string Date::printMonthFirst() const
 {
-    for (int i = 0; i < size; i++)
-        cout << numbers[i] << " ";
-    cout << endl;
+    static string months[] = {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+     
+    return months[month - 1] + " " + to_string(day) + ", " + to_string(year); 
+} 
+
+string Date::printDayFirst() const
+{
+    static string months[] = {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+
+    return to_string(day) + " " + months[month - 1] + " " + to_string(year);
 }
